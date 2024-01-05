@@ -27,7 +27,7 @@ controls.update();
 /// model
 const loader = new GLTFLoader();
 loader.load(
-  "shiba/scene.gltf",
+  "gltf/scene.gltf",
   function (gltf) {
     scene.add(gltf.scene);
   },
