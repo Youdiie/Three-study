@@ -8,9 +8,13 @@
         margin: 0;
       }
     </style>
+    <canvas id="three_canvas" width="500" height="500"></canvas>
   </head>
   <body>
-    <script type="module" src="main.js"></script>
+    <script type="module">
+      import { set_viewer } from "./main.js";
+      set_viewer("./gltf/scene.gltf");
+    </script>
     <script type="module" src="bloom.js"></script>
   </body>
 </html>

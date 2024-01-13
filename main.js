@@ -6,17 +6,13 @@ import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 
 let camera, renderer, controls, composer;
 
-init();
-
-function init() {
+function set_viewer(gltf_url) {
   renderer = new THREE.WebGLRenderer({
+    canvas: document.querySelector("#three_canvas"),
     antialias: true,
   });
-  renderer.setSize(500, 500);
-  document.body.appendChild(renderer.domElement);
 
   const scene = new THREE.Scene();
-  // scene.background = new THREE.Color(0x263238);
   scene.background = new THREE.Color("white");
 
   /// light
@@ -33,7 +29,7 @@ function init() {
 
   /// model
   new GLTFLoader().load(
-    "gltf/scene.gltf",
+    gltf_url,
     function (gltf) {
       const model = gltf.scene;
 
@@ -62,3 +58,5 @@ function animate() {
 
   composer.render();
 }
+
+export { set_viewer };
