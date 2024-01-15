@@ -117,7 +117,9 @@ function toggle_fullscreen() {
     fullscreen_button.style.display = "none";
 
     canvas.style = fullscreenStyle;
-    onWindowResize(window.innerWidth, window.innerHeight);
+
+    // 전체 화면시 screen 크기로 canvas 조정
+    onWindowResize(screen.width, screen.height);
   } else {
     canvas.style = originalStyle;
   }
