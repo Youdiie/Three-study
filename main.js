@@ -32,7 +32,8 @@ function set_viewer(gltf_url) {
 
   /// camera
   camera = new THREE.PerspectiveCamera(45, 1, 1, 10000);
-  camera.position.set(0, 0, 5);
+  camera.position.set(-2, 0, 4); // 카메라 위치 여기서 조정
+  camera.zoom = 1.5;
 
   /// orbit controls
   controls = new OrbitControls(camera, renderer.domElement);
