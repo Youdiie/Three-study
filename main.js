@@ -9,9 +9,12 @@ let camera, renderer, controls, composer;
 const canvas = document.getElementById("three_canvas");
 const fullscreen_button = document.querySelector("#button");
 
+const originalWidth = canvas.width;
+const originalHeight = canvas.height;
+const originalStyle = canvas.style.cssText;
+
 const fullscreenStyle =
-  "position:fixed; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;";
-const normalStyle = "width:500px;height:500px;";
+  "position:fixed; top:0px; left:0px; bottom:0px; right:0px; background-size: cover;width:100vh; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;";
 
 function set_viewer(gltf_url) {
   renderer = new THREE.WebGLRenderer({
@@ -87,8 +90,9 @@ function toggle_fullscreen() {
     fullscreen_button.style.display = "none";
 
     canvas.style = fullscreenStyle;
+    onWindowResize(window.innerWidth, window.innerHeight);
   } else {
-    canvas.style = normalStyle;
+    canvas.style = originalStyle;
   }
 }
 
@@ -100,10 +104,23 @@ function exitHandler() {
     !document.mozFullScreen &&
     !document.msFullscreenElement
   ) {
-    canvas.style = normalStyle;
     // 전체 화면 해제시 버튼 보임
     fullscreen_button.style.display = "flex";
+
+    canvas.style = originalStyle;
+    // 원래 canvas 크기로 돌아감
+    onWindowResize(originalWidth, originalHeight);
   }
+}
+
+function onWindowResize(width, height) {
+  // Update camera
+  camera.aspect = width / height;
+  camera.updateProjectionMatrix();
+
+  // Update renderer
+  renderer.setSize(width, height);
+  // renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 }
 
 function animate() {
