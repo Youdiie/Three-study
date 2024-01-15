@@ -8,6 +8,7 @@ let camera, renderer, controls, composer;
 
 const canvas = document.getElementById("three_canvas");
 const fullscreen_button = document.querySelector("#button");
+const rect = canvas.getBoundingClientRect();
 
 const originalWidth = canvas.width;
 const originalHeight = canvas.height;
@@ -76,6 +77,8 @@ function set_viewer(gltf_url) {
             11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>
         </svg>
     `;
+    fullscreen_button.style.top = rect.top + 10 + "px";
+    fullscreen_button.style.left = rect.left + originalWidth - 50 + "px";
   }
 
   // 전체 화면 해제 이벤트
