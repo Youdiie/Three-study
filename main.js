@@ -84,6 +84,28 @@ function set_viewer(gltf_url) {
 
   // 전체 화면 해제 이벤트
   document.addEventListener("fullscreenchange", exitHandler);
+
+  canvas.addEventListener("mousemove", onMouseMove);
+}
+
+function onMouseMove(event) {
+  const rect = canvas.getBoundingClientRect();
+  const mouseX = event.clientX - rect.left;
+  const mouseY = event.clientY - rect.top;
+
+  // Check if the mouse is over the canvas
+  if (
+    mouseX >= 0 &&
+    mouseX <= canvas.width &&
+    mouseY >= 0 &&
+    mouseY <= canvas.height
+  ) {
+    // Change cursor style when hovering over the canvas
+    canvas.style.cursor = "move";
+  } else {
+    // Restore default cursor style
+    canvas.style.cursor = "auto";
+  }
 }
 
 // 전체 화면 함수
