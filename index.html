@@ -7,14 +7,19 @@
       body {
         margin: 0;
       }
+      
     </style>
-    <canvas id="three_canvas" width="500" height="500"></canvas>
+    <link rel="stylesheet" href="main.css">
+      <canvas id="three_canvas" width="500" height="500" style="display: block;"></canvas>
+      <div>
+        <button id="button"></button>
+      </div>
   </head>
   <body>
     <script type="module">
       import { set_viewer } from "./main.js";
       set_viewer("./gltf/scene.gltf");
     </script>
-    <script type="module" src="bloom.js"></script>
+    <!-- <script type="module" src="bloom.js"></script> -->
   </body>
 </html>
