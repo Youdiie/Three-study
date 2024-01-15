@@ -37,6 +37,9 @@ function set_viewer(gltf_url) {
   controls = new OrbitControls(camera, renderer.domElement);
   controls.update();
 
+  // resize
+  onWindowResize(originalWidth, originalHeight);
+
   /// model
   new GLTFLoader().load(
     gltf_url,
@@ -61,8 +64,6 @@ function set_viewer(gltf_url) {
 
   /// fullscreen button
   if (document.fullscreenEnabled) {
-    // const fullscreen_button = document.createElement("button");
-
     fullscreen_button.setAttribute("id", "fullscreen-button");
     fullscreen_button.addEventListener("click", toggle_fullscreen);
     fullscreen_button.innerHTML = `
@@ -113,6 +114,7 @@ function exitHandler() {
   }
 }
 
+// width, height를 받아서 renderer, camera, composer 크기 조정
 function onWindowResize(width, height) {
   // Update camera
   camera.aspect = width / height;
@@ -120,7 +122,7 @@ function onWindowResize(width, height) {
 
   // Update renderer
   renderer.setSize(width, height);
-  // renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 }
 
 function animate() {
