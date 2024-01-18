@@ -84,10 +84,9 @@ function set_viewer(gltf_url) {
 
   // 전체 화면 해제 이벤트
   document.addEventListener("fullscreenchange", exitHandler);
-
-  canvas.addEventListener("mousemove", onMouseMove);
 }
 
+// 특정 조건에서 마우스 커서 변경하는 함수
 function onMouseMove(event) {
   const rect = canvas.getBoundingClientRect();
   const mouseX = event.clientX - rect.left;

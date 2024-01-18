@@ -29,3 +29,6 @@ body,
 [fullscreen] #fullscreen-button svg:nth-child(2) {
   display: inline-block;
 }
+#three_canvas {
+  cursor: url("./img/pointer.svg"), auto;
+}
