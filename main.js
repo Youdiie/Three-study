@@ -4,7 +4,7 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 
-let camera, renderer, controls, composer;
+let camera, renderer, controls, composer, scene;
 
 const canvas = document.getElementById("three_canvas");
 const fullscreen_button = document.querySelector("#button");
@@ -21,18 +21,24 @@ function set_viewer(gltf_url) {
   renderer = new THREE.WebGLRenderer({
     canvas: canvas,
     antialias: true,
+    alpha: false,
   });
 
-  const scene = new THREE.Scene();
+  scene = new THREE.Scene();
   scene.background = new THREE.Color("white");
 
   /// light
-  let light = new THREE.DirectionalLight(0xffff00, 10);
-  scene.add(light);
+  var ambientLight = new THREE.AmbientLight(0xcccccc);
+  scene.add(ambientLight);
+
+  var directionalLight = new THREE.DirectionalLight(0xffffff);
+  directionalLight.position.set(0, 1, 1).normalize();
+  scene.add(directionalLight);
 
   /// camera
   camera = new THREE.PerspectiveCamera(45, 1, 1, 10000);
-  camera.position.set(-2, 0, 4); // 카메라 위치 여기서 조정
+  camera.lookAt(new THREE.Vector3(0, 0, 0));
+  camera.position.set(20, 20, 20); // 카메라 위치 여기서 조정
   camera.zoom = 1.5;
 
   /// orbit controls
@@ -46,9 +52,13 @@ function set_viewer(gltf_url) {
   new GLTFLoader().load(
     gltf_url,
     function (gltf) {
-      const model = gltf.scene;
+      var object = gltf.scene;
+      object.scale.set(0.1, 0.1, 0.1);
+      object.position.x = 0; //Position (x = right+ left-)
+      object.position.y = 0; //Position (y = up+, down-)
+      object.position.z = 0; //Position (z = front +, back-)
 
-      scene.add(model);
+      scene.add(object);
 
       animate();
     },
@@ -59,10 +69,7 @@ function set_viewer(gltf_url) {
   );
 
   /// render pass
-  const renderScene = new RenderPass(scene, camera);
-
-  composer = new EffectComposer(renderer);
-  composer.addPass(renderScene);
+  render();
 
   /// fullscreen button
   if (document.fullscreenEnabled) {
@@ -153,12 +160,12 @@ function onWindowResize(width, height) {
 }
 
 function animate() {
+  render();
   requestAnimationFrame(animate);
+}
 
-  // required if controls.enableDamping or controls.autoRotate are set to true
-  controls.update();
-
-  composer.render();
+function render() {
+  renderer.render(scene, camera);
 }
 
 export { set_viewer };
