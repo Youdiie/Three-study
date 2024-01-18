@@ -23,17 +23,19 @@ function set_viewer(gltf_url) {
     antialias: true,
     alpha: false,
   });
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1;
 
   scene = new THREE.Scene();
   scene.background = new THREE.Color("white");
 
   /// light
-  var ambientLight = new THREE.AmbientLight(0xcccccc);
+  const ambientLight = new THREE.AmbientLight(0xffffff, 1);
   scene.add(ambientLight);
 
-  var directionalLight = new THREE.DirectionalLight(0xffffff);
-  directionalLight.position.set(0, 1, 1).normalize();
-  scene.add(directionalLight);
+  const dirLight = new THREE.DirectionalLight(0xefefff, 8);
+  dirLight.position.set(100, 100, 100);
+  scene.add(dirLight);
 
   /// camera
   camera = new THREE.PerspectiveCamera(45, 1, 1, 10000);
@@ -57,6 +59,24 @@ function set_viewer(gltf_url) {
       object.position.x = 0; //Position (x = right+ left-)
       object.position.y = 0; //Position (y = up+, down-)
       object.position.z = 0; //Position (z = front +, back-)
+
+      object.traverse(function (child) {
+        if (child.isMesh) {
+          object.traverse(function (child) {
+            /// TODO: 매쉬의 컬러가 빨강인 조건을 잡기
+            if (child.isMesh && child.material.color.r === 1) {
+              console.log(child);
+              console.log(child.material.color);
+
+              child.material = new THREE.MeshLambertMaterial({
+                color: "white",
+                transparent: true,
+                opacity: 0.4,
+              });
+            }
+          });
+        }
+      });
 
       scene.add(object);
 
