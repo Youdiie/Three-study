@@ -64,7 +64,8 @@ function set_viewer(gltf_url) {
         if (child.isMesh) {
           object.traverse(function (child) {
             /// TODO: 매쉬의 컬러가 빨강인 조건을 잡기
-            if (child.isMesh && child.material.color.r === 1) {
+            if (child.isMesh) {
+              // if (child.isMesh && child.material.color.r > 0.8) {
               console.log(child);
               console.log(child.material.color);
 
